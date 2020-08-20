@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EventApi.Models
+namespace Events.Provider.Models
 {
     public class SubscriptionChangeEvent
     {

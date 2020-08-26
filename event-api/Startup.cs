@@ -1,6 +1,8 @@
 using System;
+using Amazon.DynamoDBv2;
 using Autofac;
 using Events.Provider;
+using Events.Provider.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -23,6 +25,9 @@ namespace EventApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
+            services.AddAWSService<IAmazonDynamoDB>();
 
             services.AddSwaggerGen(c =>
             {

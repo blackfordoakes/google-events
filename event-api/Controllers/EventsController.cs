@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Events.Provider.Interfaces;
+using Events.Provider.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -19,10 +21,18 @@ namespace EventApi.Controllers
 
         [HttpGet("events")]
         [ProducesResponseType(200)]
-        public IActionResult GetAllEvents()
+        public async Task<IActionResult> GetAllEvents()
         {
-            var events = _eventService.GetAllEvents();
+            var events = await _eventService.GetAllEvents();
             return Ok(events);
+        }
+
+        [HttpPost("events")]
+        [ProducesResponseType(200)]
+        public async Task<IActionResult> AddEvent(SubscriptionChangeEvent changeEvent)
+        {
+            await _eventService.AddEvent(changeEvent);
+            return Ok();
         }
     }
 }

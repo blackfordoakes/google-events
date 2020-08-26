@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Events.Provider.Interfaces;
 using Events.Provider.Models;
 
@@ -14,9 +15,14 @@ namespace Events.Provider
             _dataProvider = dataProvider;
         }
 
-        public List<SubscriptionChangeEvent> GetAllEvents()
+        public async Task<List<SubscriptionChangeEvent>> GetAllEvents()
         {
-            return _dataProvider.GetEvents();
+            return await _dataProvider.GetEvents();
+        }
+
+        public async Task AddEvent(SubscriptionChangeEvent changeEvent)
+        {
+            await _dataProvider.WriteEvent(changeEvent);
         }
     }
 }

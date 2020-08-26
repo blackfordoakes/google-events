@@ -1,13 +1,13 @@
 using System;
 using Amazon.DynamoDBv2;
 using Autofac;
+using EventApi.Models;
 using Events.Provider;
 using Events.Provider.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 
 namespace EventApi
@@ -26,6 +26,7 @@ namespace EventApi
         {
             services.AddControllers();
 
+            services.Configure<DiagnosticSettings>(Configuration.GetSection("DiagnosticSettings"));
             services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
             services.AddAWSService<IAmazonDynamoDB>();
 
@@ -47,10 +48,7 @@ namespace EventApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseExceptionHandler("/error");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -4,24 +4,38 @@ A prototype of receiving events from Google real-time developer notifications
 
 ## Description
 
-This is a .NET Core Web API that will receive events from [Google](https://developer.android.com/google/play/billing/getting-ready#configure-rtdn) and place them in a DynamoDb table.
+There are two parts of this project:  A .NET Core Web API that can read/write messages to a DynamoDb and a Lambda function that takes an Google Real-Time event and writes it to DynamoDb. The Web APIs mainly for testing and the Lambda is used to actually integrate with Google Developer Events. The rest of this README will go into detail about the Lambda.
 
 ## Requirements
 
 .NET Core
-Docker
 An AWS account
 A Google account
 
-## Setup
+## AWS Setup
 
-I've built the solution to run on AWS in a Docker container in ECS. The following steps are how I got this running.
+To set up the AWS portion, first you must deploy the Lambda function.
 
-1. Build Docker
-2. Upload to ECR
-3. Configure ECS
-4. Configure DynamoDb
-5. Configure Google notifications
+```dotnet lambda deploy-function GoogleSubscription```
+
+I have added a role `myBasicExecutionRole` that allows Lambda to access to DynamoDb. If you have a different role, change the name in aws-lambda-tools-defaults.json.
+
+Next, we have to set up API Gateway to serve our Lambda. Go to "API Gateway" in the AWS Console and click Create API. Select a public "REST API" and click Build. Use most of the defaults (REST protocol, new API) and give your API a name. 
+
+Under "Actions", select "Create Resourse" and call this resource "event" while enabling CORS.
+
+Under the event resource, select Actions -> Create Method for POST. Select the integration type as Lambda. Make sure Use Lambda Proxy Integration is OFF. Enter the name of your Lambda function and hit save. When AWS asks you to grant permissions to execute your Lambda, allow it.
+
+
+## Google Setup
+
+The following steps are found [here](https://developer.android.com/google/play/billing/getting-ready#configure-rtdn), but reproduced for quick access.
+
+Go to the Pub/Sub section of the [Google Console](https://console.cloud.google.com/cloudpubsub/topic/list). Click "Create Topic". Give your topic a name and click create. Scroll down and click on "Create Subscription". Enter a subscription name and set the type as "Push". Enter the URL of your AWS Resource as the Endpoint URL. Leave everything else as default and click Create.
+
+Grant Google access to publish to your topic by going to the permissions on your topic and adding the service account google-play-developer-notifications@system.gserviceaccount.com, and grant it the role of Pub/Sub Publisher.
+
+Then, enable real-time notifications as specified in the documentation.
 
 ## Contributing Guidelines
 

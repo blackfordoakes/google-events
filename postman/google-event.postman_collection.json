@@ -1,0 +1,108 @@
+{
+	"info": {
+		"_postman_id": "36e0bbd7-8127-489d-a9d5-2dfe0626465b",
+		"name": "google-event",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "add-event",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"version\":\"1.0\",\r\n  \"packageName\":\"com.some.thing\",\r\n  \"eventTimeMillis\":\"1503349566168\",\r\n  \"subscriptionNotification\":\r\n  {\r\n    \"version\":\"1.0\",\r\n    \"notificationType\":4,\r\n    \"purchaseToken\":\"PURCHASE_TOKEN\",\r\n    \"subscriptionId\":\"my.sku\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/events",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get-events",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001/events",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"version\":\"1.0\",\r\n  \"packageName\":\"com.some.thing\",\r\n  \"eventTimeMillis\":\"1503349566168\",\r\n  \"subscriptionNotification\":\r\n  {\r\n    \"version\":\"1.0\",\r\n    \"notificationType\":4,\r\n    \"purchaseToken\":\"PURCHASE_TOKEN\",\r\n    \"subscriptionId\":\"my.sku\"\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/test",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add-event-prod",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Message\": {\r\n        \"MessageId\": \"11111\",\r\n        \"Message_Id\": \"11111\",\r\n        \"Data\": \"ewogICJ2ZXJz11fQ==\",\r\n        \"PublishTime\": \"2020-08-27T18:04:18.754Z\",\r\n        \"Publish_Time\": \"2020-08-27T18:04:18.754Z\"\r\n    },\r\n    \"Subscription\": \"projects/myproject/subscriptions/mysub\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "lambdaURL",
+					"host": [
+						"lambdaURL"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
